@@ -62,11 +62,22 @@ public abstract class FrameworkServlet extends HttpServlet {
 		}
 	}
 
+	/**
+	 * 根据request生成handlerMethod 的key
+	 * @param req
+	 * @return
+	 */
 	protected RequestInfo parseRequestInfo(HttpServletRequest req) {
-		String requestMethod = req.getMethod();
+		String requestMethod = req.getMethod().toUpperCase();
 		RequestInfo info = new RequestInfo();
-		info.setPath(req.getServletPath().substring(1));
-
+		String servletPath=req.getServletPath();
+		System.out.println(servletPath);
+		if (servletPath.length()>0) {
+			info.setPath(servletPath.substring(1));
+		}else{
+			info.setPath("");
+		}
+		System.out.println(info);
 		switch (requestMethod) {
 		case "GET":
 			info.setMethod(RequestMethodType.GET);

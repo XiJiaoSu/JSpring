@@ -11,7 +11,9 @@ import jspring.web.servlet.HandlerExecutionChain;
 import jspring.web.servlet.HandlerMapping;
 import jspring.web.servlet.RequestInfo;
 import jspring.web.servlet.config.annotation.RequestMapping;
+import jspring.web.servlet.config.annotation.RequestMethodType;
 import jspring.web.servlet.context.support.AnnotationApplicationContext;
+import jspring.web.servlet.interceptor.SimpleHandlerInterceptor;
 
 /**
  * 简单的地址映射
@@ -21,7 +23,7 @@ import jspring.web.servlet.context.support.AnnotationApplicationContext;
 public class SimpleUrlHanderMapping implements HandlerMapping{
 	
 	AnnotationApplicationContext applicatonContext = AnnotationApplicationContext.getInstance();
-
+	private HandlerExecutionChain chain;
 	/**
 	 * 根据Request,寻找Controller中的对应的Method
 	 */
@@ -34,6 +36,9 @@ public class SimpleUrlHanderMapping implements HandlerMapping{
 	
 	public void init(){
 		loadHandlerMapping();
+		//to be done
+		chain=new HandlerExecutionChain();
+		chain.addInterceptor(new SimpleHandlerInterceptor());
 	}
 	
 	private void loadHandlerMapping(){
@@ -56,8 +61,27 @@ public class SimpleUrlHanderMapping implements HandlerMapping{
 		return methodMappings;
 	}
 
+	/**
+	 * 返回执行链
+	 */
 	public HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception {
-		return null;
+		return chain;
 	}
 
+	public static void main(String[] args) throws Exception {
+		AnnotationApplicationContext.getInstance().loadPackageConfig("jspring.home").onCreate();
+		SimpleUrlHanderMapping handlerMapping=new SimpleUrlHanderMapping();
+		handlerMapping.init();
+		RequestInfo requestInfo=new RequestInfo();
+		requestInfo.setMethod(RequestMethodType.GET);
+		requestInfo.setPath("user");
+		for(Entry<RequestInfo,HandlerMethod> entry:handlerMapping.getMethodMappings().entrySet()){
+			System.out.println(entry.getKey()+":"+entry.getValue());
+		}
+		HandlerMethod handlerMethod = handlerMapping.getMethodMappings().get(requestInfo);
+		System.out.println(handlerMethod);
+		handlerMethod.getMethod().invoke(handlerMethod.getObject(),null);
+		
+	}
+	
 }

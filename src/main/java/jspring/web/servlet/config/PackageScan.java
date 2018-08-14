@@ -64,7 +64,7 @@ public class PackageScan {
                 try {
                     String absolutePath=file.getAbsolutePath();
                     String className=absolutePath.substring(path.length()-1,absolutePath.length()-6).replaceAll(Matcher.quoteReplacement(File.separator),"\\.");
-                    Class<?> clazz=Class.forName(basepackage+className);
+                    Class<?> clazz=Class.forName(basepackage+"."+className);
                     if (clazz.getDeclaredAnnotations().length>0) {
                         clazzs.add(clazz);
                     }
@@ -117,14 +117,14 @@ public class PackageScan {
     
     public static void main(String[] args) {
     	PackageScan pkScan=new PackageScan();
-		Set<Class<?>> clazzs = pkScan.loadAllAnnotationClass();
-		for(Class<?> entry:clazzs){
-			System.out.println(entry.getName());
-		}
+//		Set<Class<?>> clazzs = pkScan.loadAllAnnotationClass();
+//		for(Class<?> entry:clazzs){
+//			System.out.println(entry.getName());
+//		}
 		System.out.println("---------------------");
 		pkScan.addPackage("jspring.home");
-		clazzs.clear();
-		clazzs = pkScan.loadAllAnnotationClass();
+//		clazzs.clear();
+        Set<Class<?>> clazzs = pkScan.loadAllAnnotationClass();
 		for(Class<?> entry:clazzs){
 			System.out.println(entry.getName());
 		}
