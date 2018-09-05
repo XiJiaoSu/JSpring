@@ -1,6 +1,9 @@
 package jspring.web.servlet.context;
 
-public interface ApplicationContext extends LifeCycle{
+import jspring.web.servlet.bean.HierarchicalBeanFactory;
+import jspring.web.servlet.bean.ListableBeanFactory;
+
+public interface ApplicationContext extends ListableBeanFactory,HierarchicalBeanFactory{
 	
 	void load() throws Exception;
 	

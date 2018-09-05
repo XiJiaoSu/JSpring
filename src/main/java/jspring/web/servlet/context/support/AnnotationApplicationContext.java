@@ -5,10 +5,16 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import jspring.web.servlet.bean.BeanFactory;
 import jspring.web.servlet.config.PackageScan;
 import jspring.web.servlet.config.annotation.Controller;
 
-public class AnnotationApplicationContext extends ConfigurableApplicationContext {
+/**
+ * 
+ * @author WIllS 注解的默认容器实现
+ *
+ */
+public class AnnotationApplicationContext extends AbstractApplicationContext {
 	
 	private final PackageScan packageScan=new PackageScan();
 	
@@ -67,8 +73,32 @@ public class AnnotationApplicationContext extends ConfigurableApplicationContext
 	}
 	
 	@Override
-	void setId(String id) {
+	protected void setId(String id) {
 		
+	}
+
+	@Override
+	public BeanFactory getParentBeanFactory() {
+		
+		return null;
+	}
+
+	@Override
+	public boolean containsLocalBean(String name) {
+		
+		return false;
+	}
+
+	@Override
+	public <T> Map<String, T> getBeansOfType(Class<T> type, boolean includeNonSingletons, boolean allowEagerInit)
+			throws Exception {
+		return null;
+	}
+
+	@Override
+	public Object getBean(String name) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

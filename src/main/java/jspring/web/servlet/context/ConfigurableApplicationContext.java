@@ -1,8 +1,6 @@
-package jspring.web.servlet.context.support;
+package jspring.web.servlet.context;
 
 import java.util.Date;
-
-import jspring.web.servlet.context.ApplicationContext;
 
 public abstract class ConfigurableApplicationContext implements ApplicationContext {
 	
@@ -27,7 +25,7 @@ public abstract class ConfigurableApplicationContext implements ApplicationConte
 		return null;
 	}
 	
-	abstract void setId(String id);
+	protected abstract void setId(String id);
 
 	
 	
